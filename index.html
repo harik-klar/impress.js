@@ -67,13 +67,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>impress.js | presentation tool based on the power of CSS3 transforms and transitions in modern browsers | by Bartek Szopka @bartaz</title>
+    <title>Adding to the Mess: The IoT Data Firehose and How to Stop Worrying About It | Harikrishna R (harik@klarsys.com)</title>
     
-    <meta name="description" content="impress.js is a presentation tool based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind prezi.com." />
-    <meta name="author" content="Bartek Szopka" />
+    <meta name="description" content="Talk delivered at Cypher 2016" />
+    <meta name="author" content="Harikrishna R" />
 
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css?family=Acme|Fredoka+One|Hind+Siliguri" rel="stylesheet">
+    <!--
+    font-family: 'Acme', sans-serif;
+font-family: 'Fredoka One', cursive;
+font-family: 'Hind Siliguri', sans-serif; -->
     <!--
         
         Impress.js doesn't depend on any external stylesheets. It adds all of the styles it needs for the
@@ -163,9 +167,6 @@
         It will not be rotated or scaled.
         
     -->
-    <div id="bored" class="step slide" data-x="-1000" data-y="-1500">
-        <q>Aren’t you just <b>bored</b> with all those slides-based presentations?</q>
-    </div>
 
     <!--
         
@@ -182,12 +183,590 @@
         Using classic `id`-based links like `#step-2` makes these links usable also in fallback mode.
         
     -->
-    <div class="step slide" data-x="0" data-y="-1500">
-        <q>Don’t you think that presentations given <strong>in modern browsers</strong> shouldn’t <strong>copy the limits</strong> of ‘classic’ slide decks?</q>
+    <div id="start" class="step"  data-x="0" data-y="-1500">
+        <h1 class="font1" style="font-size:96px; color:white;">Adding to the Mess</h1>
+        <h4 class="font2" style="font-size:55px; color:#e0e0e0;">The IoT Data Firehose and How to Stop Worrying About It</h4>
+        <div style="margin-top:30px">
+            <img style="width: 37%; background: white;" src="img/jigsaw-logo.jpg" />
+            <img  style="position:absolute;width: 20%; right: 200px;" src="img/klar-logo.png" />
+            <p style="color: white; margin-top: 20px;position:absolute; font-size: 20px; right: 150px;">Klar Systems Private Limited</p>
+        </div>
+        <p class="font3" style="font-size:32px; color:white; margin-top:100px">Harikrishna R (<a href="mailto:harik@klarsys.com">harik@klarsys.com</a>)</p>
+
+        <div class="notes"><pre>        
+        Hi!  The topic is a little over the top, right? Way over the top.
+        Well, my other choices were "Sensor Fusion and COnfusion" --  that
+        sounded too confusing.  And the other one I had was "Dirty Data and
+        Why that's the only kind your're gonna get" -- too pessimistic.
+        "Adding to the mess"  sounded more up beat in comparison.
+
+        [Switch to video mon]
+          [Poll here?]
+          [How many of you think IoT is over hyped?]
+          [- Can you all hold up your phones, please]
+          [How many of you think my topic today is over hyped?]
+          [Can all of you hold up you phone]
+        </pre></div>
+
     </div>
 
     <div class="step slide" data-x="1000" data-y="-1500">
-        <q>Would you like to <strong>impress your audience</strong> with <strong>stunning visualization</strong> of your talk?</q>
+        <h1 class="font1 heading">About Me</h1>
+        <ul class="font2 list">
+            <li> Embedded Systems Engineer
+             <ul class="font2 list">
+                    <li> Audio System
+                    <li> Also imaging, video, uC firmware...
+             </ul>
+             <li> Fond of boxes with blinking lights
+             <li> Started a company to build a few
+        </ul>
+        <div class="notes"><pre>        
+        My name is Harikrishna.  I'm an embedded systems engineer.  My
+        background is in audio systems -- music, compression/decompression,
+        enhancement, that sort of thing -- but I've also done some imaging
+        stuff and a little bit of video analytics.  In the last two years, I
+        have been running my own firm, Klar Systems, along with a two of my
+        friends and co-founders.  We build IoT products, create frameworks for
+        IoT, and we're also helping Jigsaw Academy create an introductory
+        course on IoT.
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="2000" data-y="-1500">
+        <h1 class="font1 heading">Moore's Law</h1>
+        <img src="img/moores_law.png" height="80%" />
+        <p>Image source: <a href="https://en.wikipedia.org/wiki/Moore%27s_law">Wikipedia</a>        </p>
+        <div class="notes"><pre>        
+        
+        In the years that I spent at Texas Instruments, for the most part, as
+        an APplications Engineer, I saw IoT evolve and take shape.  What I saw
+        was chips get cheaper, more powerful and less power hungry with each
+        generation, following Moore's Law.  Now, everyone has heard about
+        Moore's Law and people mostly imagined it as being
+        applicable to chips that power PCs and Laptop -- you know --
+        Intel, AMD and maybe other server class chips and super computers and so forth.
+
+        But that's not the only thing that was going on.  When I started my
+        careed at Texas Instruments, they were already the world leaders in
+        Digital Signal Processors and the fastest one we had back then -- this
+        is the year 2000 -- ran at a 150 MHz and could do 2 32-bit MAC every
+        cycle.  By 2006, these things were running at 1 GHz+ and doing 4
+        64-bit MAC MAC.  So at at raw level, you'd gotten a 80 times speed up
+        in 6 years!
+
+        There is a point on this graph, maybe around 2000 at which mass
+        adoption of smartphones became inevitable.  I mean we didn't know
+        about skype or instagram or whatapp -- we had no way to figure out
+        what people would do with all this compting power in their pocket.  In
+        fact, most people who thought about it felt it would mostly be used by
+        business executive types -- who needed to go do a lot of meetings and
+        wouldn't want to lug a laptop.  They were wrong.  In two ways.  Most
+        people buying smartphones are regular guys who want to browse and
+        whatsapp and play games.  And business executives continue to lug
+        their laptops in and out of each meeting. Anyway my point is it was
+        not just Intel processors that got faster due to Moore's Law.  It was
+        all processors. And when the processers that powered your phone passed
+        a certain threshold, those phones became smart phones.
+
+        </pre></div>
+    </div>
+
+
+    <div class="step slide" data-x="3000" data-y="-1500">
+        <h1 class="font1 heading">Microcontrollers</h1>
+        <p class="font2">... are everywhere!</p>
+        <div>
+        <img src="img/wg_ac.jpg" width="20%" style="position:absolute;left:10%;top:30%;">
+        <img src="img/wg_dishwasher.jpg" width="15%" style="position:absolute;left:40%;top:20%;">
+        <img src="img/wg_heater.jpg" width="15%" style="position:absolute;left:10%;top:65%;">
+        <img src="img/wg_washing_mc.jpg" width="15%" style="position:absolute;left:70%;top:70%;">
+        <img src="img/wg_microwave.jpg" width="25%" style="position:absolute;left:40%;top:70%;">
+        <img src="img/wg_fridge.jpg" width="15%" style="position:absolute;left:70%;top:30%;">
+
+                <img src="img/wg_uc.jpg" width="20%" style="position:absolute;left:40%;top:40%;"/>
+        </div>
+        <div class="notes"><pre>        
+        
+        Today that same process is making microcontrollerS faster and more
+        powerful.  And microcontrollers are ever where.  Already.  Today.
+        They are in pretty much every equipment around you.  From
+        refregirators, microwave ovens, dishwashers, washing machines,
+        elevators, gensets, weighing machines, electronic safes, ... I mean we
+        are surrounded by microcontrolers.  FOr the most part, these have been
+        quiet workhorses -- substituting custom circuitry with more flexible
+        and cheaper programmable designs.  And now microcontrollers are on the
+        verge of crossing a threshold in terms of their capabilities.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="4000" data-y="-1500">
+        <h1 class="font1 heading" style="font-size:80px;">Ubiquitous Connectivity</h1>
+        <div>
+            <style>
+             .connectivity_box {
+                position:absolute;
+                width:18%;
+                height:90px;
+                top:85%;
+                left:0%;
+                background:#493382;
+                box-shadow: 10px 10px 5px #5e42a6;
+                color: white;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 90px;
+             }
+            </style>
+            <div class="connectivity_box" style="left: 7%;top:75%;">
+              NFC 
+            </div>
+            <div class="connectivity_box" style="left: 17%;top:60%;">
+              Bluetooth 
+            </div>
+            <div class="connectivity_box" style="left: 27%;top:45%;">
+              ZigBee 
+            </div>
+            <div class="connectivity_box" style="font-size:50%;left: 57%;top:30%;">
+              Mobile (2.5G/3G/4G) 
+            </div>
+            <div class="connectivity_box" style="font-size:50%;left: 37%;top:20%;">
+              Wired Broadband 
+            </div>
+            <div class="connectivity_box" style="left: 27%;top:75%;">
+              LoRa 
+            </div>
+            <div class="connectivity_box" style="left: 57%;top:55%;">
+              Satellite 
+            </div>
+            <div style="position:absolute;left:-90px;top:45%;transform:rotate(-90deg)">Increasing Bandwidth &rarr;</div>
+            <div style="position:absolute;left:40%;top:90%;">Increasing Power &rarr;</div>
+              <!-- Bluetooth WiFi ZigBee Mobile Wired Broadband LoRa Satellite -->      
+        </div>
+        <div class="notes"><pre>        
+        
+        The second trend driving IoT is connectivity.  Broadband adoption, the
+        worldwide availability of 3G and 4G wireless data, cheaper, smarter,
+        networking equipment -- many of us are running home networks that are
+        more complex than what some small companies had 15-20 years back --
+        with routers, repeaters and bridges. And this is being augmented by
+        other wireless technologies from NFS and Bluetooth to LoRa and other
+        innvotive uses of the radio spectrum.  Basically, there is a solution
+        at every feasible intersection of power vs bandwidth vs range.  And
+        connectivity continues to become more cheaper and pervasive.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="5000" data-y="-1500">
+        <h1 class="font1 heading">Sensors</h1>
+        <style>
+        blockquote {
+          background: #f9f9f9;
+          border-left: 10px solid #ccc;
+          margin: 1.5em 10px;
+          padding: 0.5em 10px;
+          quotes: "\201C""\201D""\2018""\2019";
+        }
+        blockquote:before {
+          color: #ccc;
+          content: open-quote;
+          font-size: 4em;
+          line-height: 0.1em;
+          margin-right: 0.25em;
+          vertical-align: -0.4em;
+        }
+        blockquote p {
+          display: inline;
+        }
+        blockquote footer cite {
+            float: right;
+        }
+        </style>
+        <blockquote>
+        <p>The Internet of Things and Sensors and Actuators!</p>
+        <footer>
+            &nbsp;<cite>- <a href="https://www.usenix.org/conference/lisa12/internet-things-and-sensors-and-actuators">Vincent Cerf</a></cite>
+            </footer>
+        </blockquote>
+        <ul class="font2 list">
+            <li> Digitization </li>
+            <li> Miniaturization and Modularization </li>
+            <li> MEMS technology</li>
+        </ul>
+
+        <div class="notes"><pre>        
+        
+        Finally, you have sensors.  To me this is hugely significant.  Vint
+        Cerf, the “Father of the Internet,” called IoT the "internet of
+        sensors". And in a way, the central point of my talk today is about
+        this trend.  This is actually a interlinked set of little noticed
+        trends.  First: pretty much anything you may want to measure, can now
+        be measured digitally.  Weight - now you have digital scales.
+        Temperature -- we have digital thermometers.  Pressure, humidity --
+        same thing.  And also for a a bunch of things we couldn't have meaured
+        before -- accelaration, proximity, pedometer, not to CMOS sensors for
+        imaging.  Even the traditional sensors we have known -- mics, imaging
+        sensors, have gotten a lot smaller and a lot cheapers.  This is made
+        possile by a variety of advances, mostly in semi-conductor
+        technologies -- things like MEMS. An average smarthone today has a
+        dozen sensors.  And partly as a result - we'll consume more than one
+        and half a billion smartphones this year -- they have all gotten
+        cheaper. In some cases 100X cheaper in the last 10 years.
+
+        </pre></div>
+    </div>
+    <div class="step slide" data-x="6000" data-y="-1500">
+        <h1 class="font1 heading">IoT: Why Now?</h1>
+        <blockquote>
+        <p>50 billion connected devices by 2020</p>
+        <footer>
+            &nbsp;<cite>- Cisco</cite>
+            </footer>
+        </blockquote>
+
+        <blockquote>
+        <p>28 billion connected devices by 2021</p>
+        <footer>
+            &nbsp;<cite>- Gartner</cite>
+            </footer>
+        </blockquote>
+
+        <blockquote>
+        <p>26 billion connected devices by 2020</p>
+        <footer>
+            &nbsp;<cite>- Gartner</cite>
+            </footer>
+        </blockquote>
+        <p class="font2">Right now we're already at 15 billion connected devices.</p>
+
+        <div class="notes"><pre>        
+        
+        So these things are all happening -- and you can look at these trends
+        and make the projections. It's quite easy.  The 20 billion connected
+        devices that we're going to have is not so much unbelieveble as
+        inevitable.
+
+        [How many think IoT is going to be big "in the near future"?]
+
+        The problem is we have no way of knowing what these devices are going
+        to be doing. Anymore than someone could have foreseen the various uses
+        we find for our smartphones.  And I think the reason most people think
+        that IoT is overhyped is because of this gap in our ability to forsee.
+
+        [How many think IoT is overhyped?]
+
+        I'm not saying IoT is not hyped. Of course it is -- and some very
+        crazy predictions are being made that will be way off the mark.  But,
+        it hard to see that we'll stop here. The trends underlying this
+        phenomenon are secure.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="7000" data-y="-1500">
+        <h1 class="font1 heading" style="font-size:90px">Top-Down Prognoses</h1>
+        <style>
+        .rlist {
+            font-style: italic; 
+            font-size: 70%;
+        }
+        .rlist:before {
+            content: ' '; display: block;
+        }
+        </style>
+        <ul class="font2 list">
+        <li> "Smart" <u>thingy</u>: <span class="rlist">Toaster? Toilet? Teaspoon?</span>
+        <li> "Connected" <u>thingamajig</u>: <span class="rlist">Car? Home? Cities?</span>
+        <li> "Wearable" <u>thingummy</u>: <span class="rlist">Fitness? Tracking? Medical condition?</span>
+        </li>
+        <div class="notes"><pre> 
+
+
+        A lot of peopel to fill this gap in our understanding will often look
+        from the top-down.  Look at some big problem we're facing -- I don't
+        know -- in health care or maybe smart cities or perhaps traditional
+        industries like retail - and try to see how these devies can be used
+        in that context.  This is a valid approach -- but prolematic, Because
+        you can't be specific.
+
+        I don't mean to play the cynic hear.  I'm just saying, these exercises in imagination are good for developing your imagination.  They are unlikely to predict outcomes. How a society adopts a particular technology is a complex non-linear path. 
+
+        Instead, what I prefer to do is look at it from the bottom up.  I look
+        at the the possibilities that are opeing up -- as they are opening up
+        -- and try and understand those technological capabilities that we can
+        bring to bear on a problem.  i.e., focus on the toolkit, and when do
+        encounter a problem, you can pull out the most appropriat etool from
+        your tool kit.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="8000" data-y="-1500">
+        <h1 class="font1 heading" style="font-size:90px">Phone Vote Demo</h1>
+        <style>
+            .io_box {
+                position:absolute;
+                width:22%;
+                height:110px;
+                top:45%;
+                background:#493382;
+                box-shadow: 10px 10px 5px #5e42a6;
+                color: white;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 110px;
+            }
+            .process_box {
+                position:absolute;
+                width:30%;
+                height:220px;
+                top:37%;
+                left: 36%;
+                background: white;
+                border: 2px solid black;
+                box-shadow: 10px 10px 5px #493382;
+                color: #5e42a6;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 220px;
+            }
+            .arrow {
+                position:absolute;
+                top:37%;
+                width:5%;
+                height:220px;
+                color: black;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 220px;
+                font-weight: bold;
+                font-size: 61px;
+            }
+        </style>
+        <div>
+        <div class="io_box" style="left:5%;">Camera Input</div>
+        <div class="arrow" style="left:29%;">&rarr;</div>
+        <div class="process_box">Process Video</div>
+        <div class="arrow" style="left:68%;">&rarr;</div>
+        <div class="io_box" style="left:75%;">Count</div>
+        </div>
+        <div class="notes"><pre> 
+
+
+        And I prefer concrete examples to vague abstractions.  So that's why I did this demo (even though it doesn't work very well...).  And I thought: why don't I explain how this works.  
+
+        If you get nothing else out of this workshop: you'll get at least a sense of how this sort of problem can be approached. And hopefully it adds to your tool kit. Maybe not directly, may be it does so by leading you in some related directions... I don't know.  In any case, it gets you closer on the path of adding to this technological progress, rather than merely watching or, worse, participating in the hype cycle.
+
+        [So how many of you think that this is a complex algo?]
+
+        OK, so let's open the hood.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="8000" data-y="-1550" data-scale=".1">
+        <h1 class="font1 heading" style="font-size:90px">Under the Hood</h1>
+        <style>
+            .io_frame {
+                position:absolute;
+                width:9%;
+                height:110px;
+                top:45%;
+                background:#493382;
+                box-shadow: 10px 10px 5px #5e42a6;
+                color: white;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 110px;
+            }
+            .process_step {
+                position:absolute;
+                width:7%;
+                height:220px;
+                top:37%;
+                background: white;
+                border: 2px solid black;
+                box-shadow: 10px 10px 5px #493382;
+                color: #5e42a6;
+                text-align: center;
+                vertical-align: center;
+                line-height: 220px;
+            }
+            .arrow_small {
+                position:absolute;
+                top:37%;
+                width:3%;
+                height:220px;
+                color: black;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 220px;
+                font-weight: bold;
+                font-size: 35px;
+            }
+            .box_text {
+                position: relative;
+                top: 22%;
+                transform-origin: center center 0;
+                transform: rotate(-90deg);
+            }
+        </style>
+        <div>
+        <div class="io_frame" style="left:3%;">Image</div>
+        <div class="arrow_small" style="left:13%;">&rarr;</div>
+        <div class="process_step"  style="left:17%;"><div class="box_text">Grayscale</div></div>
+        <div class="arrow_small" style="left:25%;">&rarr;</div>
+        <div class="process_step"   style="left:29%;"><div class="box_text">Contrast</div></div>
+        <div class="arrow_small" style="left:37%;">&rarr;</div>
+
+        <div class="process_step" style="left:41%;"><div class="box_text">Thresholding</div></div>
+        <div class="arrow_small" style="left:49%;">&rarr;</div>
+        <div class="process_step"  style="left:53%;"><div class="box_text">Hyteresis</div></div>
+        <div class="arrow_small" style="left:61%;">&rarr;</div>
+        <div class="process_step" style="left:65%;"><div class="box_text">Segmentation</div></div>
+        <div class="arrow_small" style="left:72%;">&rarr;</div>
+        <div class="process_step" style="left:76%;"><div class="box_text">Count</div></div>
+        </div>
+        <div class="notes"><pre> 
+
+        Yeah it's actualy quite simple.  Six steps.  Each one fairly basic.
+        Let's begin at the beginning.  The camera I have here is a Logitech
+        [FIXME]. Megapixel webcam.  Not very expensive -- not cheap stuff
+        either.  ABout 1500 rupees  or so.  Hunt for a deal this Diwali -- I
+        hear our favorite online retail giants are gearing up for battle this
+        season --  you may get something like it under 1000, I think.
+
+        </pre></div>
+    </div>
+    <div class="step slide" data-x="7965" data-y="-1545" data-scale=".001">
+        <style>
+            .image_rep th {
+                text-align: center;
+                vertical-align: middle;
+                font-weight: bold;
+            }
+            .image_rep td {
+                border: 1px solid black;
+                text-align: center;
+                vertical-align: middle;
+                background-color:  #fff;
+                width: 70px;
+                height: 64px;
+            }
+        </style>
+        <script>
+        setInterval(function () {
+            var table = document.getElementById("image_rep");
+            var c = 0, rgb = []
+            for (var i = 0, row; row = table.rows[i]; i++) {
+               for (var j = 0, col; col = row.cells[j]; j++) {
+                    if (col.tagName != 'TD' || col.rowSpan != 1 || col.colSpan != 1)
+                        continue;
+                    var color = '#'; // hexadecimal starting symbol
+                    var letters = 'acc7dc d6dde3 8ac5c3 ff9681 c06c84 eeebdc e2d4d4 231f20 c8b7a7 bfb1d5 f0e0a2 403d50 ddf1e8 93642e f4858e bfe2ca d0e2ec 51a1c4'.split(' ');
+                    color += letters[Math.floor(Math.random() * letters.length)];
+                    col.style.background = color;
+                    if (c++ == 15) {
+                        rgb[0] = color.substring(1, 3);
+                        rgb[1] = color.substring(3, 5);
+                        rgb[2] = color.substring(5, 7);
+                    }
+               }  
+            }
+            table = document.getElementById("pixel_rep");
+            table.rows[0].cells[0].style.background = '#'+rgb[0]+rgb[1]+rgb[2];
+            table.rows[1].cells[0].style.background = '#'+rgb[0]+'0000';
+            table.rows[1].cells[1].style.background = '#00'+rgb[1]+'00';
+            table.rows[1].cells[2].style.background = '#0000'+rgb[2];
+            document.getElementById("r_val").innerText = parseInt(rgb[0], 16);
+            document.getElementById("g_val").innerText = parseInt(rgb[1], 16);
+            document.getElementById("b_val").innerText = parseInt(rgb[2], 16);
+        }, 2000);
+        </script>
+        <h1 class="font1 heading">HD Image</h1>
+        <div>
+            <table id="image_rep" class="image_rep">
+            <tr><th></th><th></th><th colspan="10">Columns</th></tr>
+            <tr><th></th><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th colspan="4">...</th><th>1278</th><th>1279</th></tr>
+            <tr><th rowspan="10" style="transform:rotate(-90deg);">Rows</th><th>0</th>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td colspan="4">...</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><th>1</th>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td colspan="4">...</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><th>2</th>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td colspan="4">...</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><th>3</th>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td colspan="4">...</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><th rowspan="4">...</th><td rowspan="4" colspan="10">&nbsp;&nbsp;&nbsp;&nbsp;...</td></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr><th>718</th>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td colspan="4">...</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><th>719</th>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td colspan="4">...</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            </table>
+            <p>1280 columns * 720 rows &rarr; 921600 pixels/image</p>
+        </div>
+        <div class="notes"><pre> 
+
+        What this gives me is a 1280x720 image at upto 30 FPS, so called 720p video.
+        Now that sounds impressive.  But those of you who are photograhy
+        enthusiasts or have tried to comparison shop for mid- to high-end
+        cameras, you guys would have figured out very quickky that image
+        quality is not about the pixel count.  It depends of very many things
+        -- the optics, the size of the sensor, the type of image
+        stabilization, and so forth.  And in the grand scheme of things, what
+        we have here is poor-man's HD image.  I mean technically it is HD, but
+        that's about it.
+
+        So this is what we get: 1280 columns, 720 rows, and...
+
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="7965" data-y="-1545" data-scale=".00001">
+        <h1 class="font1 heading">Pixel</h1>
+        <div style="position:absolute;left:40%;top:40%;margin-bottom:30px;">
+            <table id="pixel_rep" class="image_rep">
+            <tr><td colspan="3">Pixel</td></tr>
+            <tr><td>R=<span id="r_val"></span></td>
+                    <td>G=<span id="g_val"></span></td>
+                    <td>B=<span id="b_val"></td></tr>
+            </table>
+        </div>
+        <p>921600 pixels/image &times; 24 bits/pixel &rarr; 2.6 MB</p>
+        <p>2.6 MB @ 30 frames/second &rarr; ~600 mbps [uncompressed]</p>
+        </div>
+        <div class="notes"><pre> 
+
+        ...each pixel is a 24 bit number -- 8 bits each for the red, green and
+        blue planes.  That's a total of 2.6 MB per uncomressed image.  And at
+        30 FPS, we are looking at more than 600 mbps.  HD video stream!
+        That's a large amount of data, but in practice, when streaming over
+        the network, we compress this stream. And compression ratios of 200
+        times is often possible with h.264, especially when you have low
+        motion video.  So when you are streaming, it becomes 3-4 mbps.
+
+        </pre></div>
+    </div>
+
+    <!-- <div class="step slide" data-x="7965" data-y="-1545" data-scale=".001" id="get_back">
+        <div>
+                <p>Testing</p>
+        </div>
+        <div class="notes"><pre> 
+
+        But in our case, we want to be processing this whole image in its uncompressed form. Just a few years ago this was an impossible torrent of data.  If were to spend say 100 cpu cycles per pixel -- and thats not hard to do -- that won't take more than 10 lines of code in a high level language -- you'll end up needing 2.7 GHz.  You either need a very power processor or some custom circuitry to make sense of it.  Well, fortunately for us, with video there's a very simple option.  Just drop the frame rate.  If you were OK with processing this stream at 3 frames per second, instead of 30 -- straightaway the CPU requirement drops 10 fold.  But what that means is that you get only one image for 300 ms.  In other words, youneed to hold you phone up for at least a third of a second to make sure we get you.  That's not hard -- most people will hold it up for a few seconds.
+
+        Even a low-end platform -- ay the raspberry pi -- which has a single core ARM processor running at 800 MHz can handle this quite easily.  We are not usin ga RaspPi here - we'll come to our compute platform later. Just wanted to give you a sense of the problem size.
+
+        </pre></div>
+    </div> -->
+
+    <div class="step slide" data-x="9000" data-y="-1500">
     </div>
 
     <!--
@@ -199,21 +778,21 @@
         From presentation and transitions point of view it means, that it will have to be scaled
         down (4 times) to make it back to its correct size.
         
-    -->
+    
     <div id="title" class="step" data-x="0" data-y="0" data-scale="4">
         <span class="try">then you should try</span>
         <h1>impress.js<sup>*</sup></h1>
         <span class="footnote"><sup>*</sup> no rhyme intended</span>
     </div>
 
-    <!--
+    
         
         This element introduces rotation.
         
         Notation shouldn't be a surprise. We use `data-rotate="90"` attribute, meaning that this
         element should be rotated by 90 degrees clockwise.
         
-    -->
+    
     <div id="its" class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
         <p>It’s a <strong>presentation tool</strong> <br/>
         inspired by the idea behind <a href="http://prezi.com">prezi.com</a> <br/>
@@ -224,7 +803,7 @@
         <p>visualize your <b>big</b> <span class="thoughts">thoughts</span></p>
     </div>
 
-    <!--
+    
         
         And now it gets really exciting! We move into third dimension!
         
@@ -232,12 +811,12 @@
         `data-z`. In the example below we use `data-z="-3000"` meaning that element should be
         positioned far away from us (by 3000px).
         
-    -->
+    
     <div id="tiny" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
         <p>and <b>tiny</b> ideas</p>
     </div>
 
-    <!--
+    
         
         This step here doesn't introduce anything new when it comes to data attributes, but you
         should notice in the demo that some words of this text are being animated.
@@ -256,10 +835,10 @@
         So basically every step element has one of three classes: `future`, `present` and `past`.
         Only one current step has the `present` class.
         
-    -->
+    -
     <div id="ing" class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
         <p>by <b class="positioning">positioning</b>, <b class="rotating">rotating</b> and <b class="scaling">scaling</b> them on an infinite canvas</p>
-    </div>
+    </div> 
 
     <div id="imagination" class="step" data-x="6700" data-y="-300" data-scale="6">
         <p>the only <b>limit</b> is your <b class="imagination">imagination</b></p>
@@ -274,7 +853,7 @@
         <p>one more thing...</p>
     </div>
 
-    <!--
+    
         
         And the last one shows full power and flexibility of impress.js.
         
@@ -285,13 +864,13 @@
         You can of course rotate it around Z axis with `data-rotate-z` - it has exactly the same effect
         as `data-rotate` (these two are basically aliases).
         
-    -->
+    
     <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
         <p><span class="have">have</span> <span class="you">you</span> <span class="noticed">noticed</span> <span class="its">it’s</span> <span class="in">in</span> <b>3D<sup>*</sup></b>?</p>
         <span class="footnote">* beat that, prezi ;)</span>
     </div>
 
-    <!--
+    
         
         So to summarize of all the possible attributes used to position presentation steps, we have:
         
@@ -305,9 +884,9 @@
         These values are used by impress.js in CSS transformation functions, so for more information consult
         CSS transfrom docs: https://developer.mozilla.org/en/CSS/transform
         
-    -->
+    
     <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
-    </div>
+    </div>-->
 
 </div>
 
@@ -360,7 +939,11 @@ if ("ontouchstart" in document.documentElement) {
     
 -->
 <script src="js/impress.js"></script>
-<script>impress().init();</script>
+<script src="js/impressConsole.js"></script>
+<script>
+    impress().init();
+    impressConsole().init();
+</script>
 
 <!--
     

@@ -85,13 +85,14 @@ body {
     font-family: 'PT Sans', sans-serif;
     min-height: 740px;
 
-    background: rgb(215, 215, 215);
-    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
-    background: -webkit-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:    -moz-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:     -ms-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:      -o-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:         radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+    /*background: rgb(215, 215, 215);*/
+    background: #5e42a6;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(#493382), to(#5e42a6));
+    background: -webkit-radial-gradient(#493382, #5e42a6);
+    background:    -moz-radial-gradient(#493382, #5e42a6);
+    background:     -ms-radial-gradient(#493382, #5e42a6);
+    background:      -o-radial-gradient(#493382, #5e42a6);
+    background:         radial-gradient(#493382, #5e42a6);*/
 }
 
 /*
@@ -239,6 +240,32 @@ a:focus {
     white-space: nowrap;
 }
 
+.font1 {
+    font-family: 'Acme', sans-serif;
+}
+.font2 {
+    font-family: 'Fredoka One', cursive;
+}
+.font3 {
+    font-family: 'Hind Siliguri', sans-serif;
+}
+.heading {
+    font-size:96px; 
+    color:#0e0e0e;
+    margin-bottom:50px;
+}
+.list {
+    font-size:45px; 
+    list-style: square inside;
+    padding: 0px 25px;
+    
+}
+.list li {
+    line-height: normal;
+}
+.notes {
+  display: none;
+}
 /*
     And now we start to style each step separately.
 
