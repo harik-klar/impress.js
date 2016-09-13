@@ -623,7 +623,7 @@ font-family: 'Hind Siliguri', sans-serif; -->
 
         <div class="process_step" style="left:41%;"><div class="box_text">Thresholding</div></div>
         <div class="arrow_small" style="left:49%;">&rarr;</div>
-        <div class="process_step"  style="left:53%;"><div class="box_text">Hyteresis</div></div>
+        <div class="process_step"  style="left:53%;"><div class="box_text">Hysteresis</div></div>
         <div class="arrow_small" style="left:61%;">&rarr;</div>
         <div class="process_step" style="left:65%;"><div class="box_text">Segmentation</div></div>
         <div class="arrow_small" style="left:72%;">&rarr;</div>
@@ -634,7 +634,7 @@ font-family: 'Hind Siliguri', sans-serif; -->
         Yeah it's actually quite simple.  Six steps.  Each one fairly basic.
         Let's begin at the beginning.  The camera I have here is a Logitech
         [FIXME]. Megapixel webcam.  Not very expensive -- not cheap stuff
-        either.  ABout 1500 rupees  or so.  Hunt for a deal this Diwali -- I
+        either.  About 1500 rupees  or so.  Hunt for a deal this Diwali -- I
         hear our favorite online retail giants are gearing up for battle this
         season --  you may get something like it under 1000, I think.
 
@@ -790,7 +790,7 @@ font-family: 'Hind Siliguri', sans-serif; -->
         </div>
         <div class="notes"><pre> 
 
-        OK, so we have the image. What next.  Well, we re not really interested in a color image. We want to look for black phones. So first thing we do, we convert it to a gray scale image.  i.e., for 24 bits per pixel, it drops to 8 bits per pixel.  And the process involves a straightforward weighter sum of the RG abd B values.  The 8 bit alue we have goes from 0 to 255. 0 is perfect dark and 255 is perfect bright.
+        OK, so we have the image. What next.  Well, we're not really interested in a color image. We want to look for black phones. So first thing we do, we convert it to a gray scale image.  i.e., for 24 bits per pixel, it drops to 8 bits per pixel.  And the process involves a straightforward weighter sum of the RG abd B values.  The 8 bit alue we have goes from 0 to 255. 0 is perfect dark and 255 is perfect bright.
 
         </pre></div>
     </div>
@@ -813,16 +813,262 @@ font-family: 'Hind Siliguri', sans-serif; -->
         </pre></div>
     </div>
 
-    <div class="step hide" data-x="7991" data-y="-1548" data-scale="0.025" data-rotate="-90">
-        <div style="position:absolute;top:340%;display:inline-block; color:#493382;font-size:39px">
-         <p><b>Output = 1, if above <tt>threshold</tt>; 0, otherwise</b></p>
-        </div>
+    <div class="step slide hide" data-x="8010" data-y="-1565" data-scale="0.023" data-rotate="-90">
+        <h1 class="font1 heading" style="font-size: 86px;">Hyteresis Thresholding</h1>
+        <p style="font-size: 42px;margin-bottom:30px;">Set and tune two thresholds: <i>high</i> and <i>low</i></p>
+        <ul class="font2 list" style="font-size: 34px;margin-bottom:20px;">
+         <li> Pixels below <i>low</i> are marked 0 (black)</li>
+         <li> Pixels above <i>high</i> are marked 255 (not black)</li>
+         <li> Pixels between <i>low</i> and <i>high</i> are
+            <ul class="font2 list" style="font-size: 30px;">
+             <li> Marked 0 if any one of their neighbours is 0</li>
+             <li> Marked 255 otherwise</li>
+            </ul>
+        </ul>
+        <p style="font-size: 40px;margin-top:30px;color:#5e42a6;">Needs to be implemented recursively or over multiple passes. Somewhat expensive.</p>
         <div class="notes"><pre> 
 
-        So get past this we use a technique called hyterisis thresholding.  This refers to a process which is in theory stateless, but one in which the output lags behind in the input.  In the context of image processing, the way this works is, we have two threshold.  One high, one low.  So what we're saying is, everything below the low threshold is definitely back.  Everything above rhe high threshold is definitely not black.  For pixels with a value in between -- they are cnsidered black provided they have at least one black neighbour.  OK, so think about this.  You start with an image and mark all the pixels.  Yu get abunch of black, a bunh of not blacks, and then a bunch of question marks. Pixels that lie between the threshold.  You then grow the black regions by encompassing all the questionable pixels nearby in a progressive manner. This is a recursive process.  An a problem that arises frequently in what is generally called image segmentation.  When ever you have a picture that you want to break up into different regions or objects.  
+        So to get past this we use a technique called hyteresis thresholding.
+        Hyteresis refers to a stateful process in which the output lags behind
+        the input.  In the context of image processing, the way this works is,
+        we have two thresholds.  One high, one low.  So what we're saying is,
+        everything below the low threshold is definitely black.  Everything
+        above the high threshold is definitely not black.  For pixels with a
+        value in between -- they are considered black provided they have at
+        least one black neighbour.
 
-So with this we get two thresholds to tweak and a little bit of tweaking lets us get to a just right number.  Finally, we constrain the sizes.  At this discance, we expect the phone to fall within a particular size range.  That lets us eliminate a lot of false positives.  Fiannly, we igno regions that are permanently black. You know things that are part f the background.  
 
+        </pre></div>
+    </div>
+    <div class="step slide hide" data-x="8010" data-y="-1588" data-scale="0.023" data-rotate="-90">
+        <h1 class="font1 heading" style="font-size: 86px;">Hyteresis Thresholding</h1>
+        <p>Pass: <span id="pass_count"></span>
+        <table id="ht_image"></table>
+        <script>
+            var tab = document.getElementById('ht_image');
+            var pCount = document.getElementById('pass_count');
+            var pass = -1, nc = 23, nr = 14, left = 5, top = 10, bottom = 5;
+            var low = 32, high = 128;
+            for (var i = 0; i < nr; i++) {
+                var row = tab.insertRow(i);
+                for (var j = 0; j < nc; j++) {
+                    var cell = row.insertCell(j);
+                    cell.style.border = '1px solid black';
+                    cell.innerHTML  = '&nbsp;';
+                }
+            }
+            tab.style.position = 'absolute';
+            tab.style.top = top + '%';
+            tab.style.left = left + '%';
+            tab.style.width = '90%';
+            tab.style.height = '70%';
+            setInterval(function () {
+                switch (pass) {
+                case -1:
+                    for (var i = 0; r = tab.rows[i]; i++)
+                        for (var j = 0; c = r.cells[j]; j++)
+                                c.curVal = Math.floor(Math.random()*255+0.5);
+                        break;
+                case 0:
+                    for (var i = 0; r = tab.rows[i]; i++)
+                        for (var j = 0; c = r.cells[j]; j++) {
+                            if (c.curVal < low) c.curVal = 0;
+                            else if (c.curVal > high) c.curVal = 255;
+                            else c.curVal = 128;
+                        }
+                        break;
+                case -2:
+                    for (var i = 0; r = tab.rows[i]; i++)
+                        for (var j = 0; c = r.cells[j]; j++) 
+                            if (c.curVal == 128)
+                                c.curVal = 255;
+                    break;
+                default:
+                    var inc = 0;
+                    for (var i = 0; r = tab.rows[i]; i++)
+                        for (var j = 0; c = r.cells[j]; j++) {
+                            if (c.curVal != 128)
+                                continue;
+                            if (!i || !j || (i == nr -1) || (j == nc - 1))
+                                continue;
+                            if (tab.rows[i-1].cells[j-1].curVal == 0 || 
+                                tab.rows[i-1].cells[j].curVal == 0 || 
+                                tab.rows[i-1].cells[j+1].curVal == 0 ||
+                                tab.rows[i].cells[j-1].curVal == 0 || 
+                                tab.rows[i].cells[j+1].curVal == 0 || 
+                                tab.rows[i+1].cells[j-1].curVal == 0 || 
+                                tab.rows[i+1].cells[j].curVal == 0 || 
+                                tab.rows[i+1].cells[j+1].curVal == 0 ) {
+                                c.curVal = 0;
+                                ++inc;
+                            }
+                        }
+                    if (!inc)
+                        pass = -3; // Done
+                    break;
+                }
+                for (var i = 0; r = tab.rows[i]; i++)
+                    for (var j = 0; c = r.cells[j]; j++) {
+                        var x = c.curVal;
+                        c.style.background = 'rgb('+x+','+x+','+x+')';
+                    }
+                ++pass;
+                pCount.innerText = pass;
+            }, 2000);
+        </script>
+        <div class="notes"><pre> 
+
+        OK, so think about this.  You start with an image and mark all the
+        pixels.  You get a bunch of black, a bunch of not blacks, and then a
+        bunch of question marks. Pixels that lie between the threshold.  You
+        then grow the black regions by encompassing all the questionable
+        pixels nearby in a progressive manner. This is a recursive process.
+        This is a special case of a problem that arises frequently in what is
+        generally called image segmentation.  Whenever you have a picture that
+        you want to break up into different regions or objects.  There are
+        multiple different ways to go about this, but I just took a brute
+        force approach here.
+
+        So with this we get two thresholds to tweak and a little bit of
+        tweaking lets us get to a just right number.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide hide" data-x="8020" data-y="-1565" data-scale="0.023" data-rotate="-90">
+        <h1 class="font1 heading" >Find Regions</h1>
+        <ul class="font2 list">
+         <li> Find regions of interest</li>
+         <li> Eliminate based on size</li>
+         <li> Eliminate based on aspect ratio</li>
+         <li> Eliminate boxes that are part of the background</li>
+        </ul>
+        <div class="notes"><pre> 
+
+        Next we can find our regions of interest from this binary image.  I
+        used a library called tracking.js do this.   Tracking.js returns a
+        list of black boxes it found in the image.  We look at each nox and
+        eliminate candidates based on size and aspect ratio.
+
+        Finally, we ignore regions that are permanently black. You know,
+        things that are part of the background.  More enhancements are
+        possible: by this point it is all just logic on the list of boxes you
+        have.  You can smothen the counts.  Eliminate spurious boxes (those
+        that don't show up for more than 1 or 2 frames).  And so on.
+
+        Well. That's all there is to it.  [So how many still find this too
+        complex?]
+
+        Right, it does not take a Ph D or a big team to put togather something
+        like this.  Well, if you did have a lot of Ph. D. working for you, you
+        could definitely do a much, much better job. For one thing, I wouldn't
+        have had to ask you to raise your phone. I could just asked you to
+        raise you hands and done gesture recognition.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide hide" data-x="8020" data-y="-1588" data-scale="0.023" data-rotate="-90">
+        <h1 class="font1 heading" >Gesture Recognition</h1>
+        <img src="img/xkcd_ai.png">
+        <p>XKCD: <a href="http://xkcd.com/1425/">http://xkcd.com/1425/</a></p>
+        <div class="notes"><pre>
+
+        That's possible today, but requires more than just an ad hoc approach
+        we used here.  We would have needed machine learning.  Now keep in
+        mind, it is not necessarily more complex in terms of computation.
+        Just harder to conceptualize, design, configure and make into a
+        working systme.  Actually much much much more harder...
+
+        </pre></div>
+    </div>
+
+    <div class="step slide hide" data-x="8080" data-y="-1520" data-scale="0.12">
+        <h1 class="font1 heading" >Demo Platform</h1>
+        <div class="notes"><pre>
+
+        And here's the best part about this demo.
+
+        I'm doing this whole thing inside a browser.  That's right!  It is
+        100% javascript code.  You know, a few years back, I'd have been
+        embarrased to say I was coding in javascript.  And the idea that you
+        could do HD video processing in JS would have sounded hilariously
+        absurd. Yet,  here we are.
+
+        The story of how  JS moved from a toy language used to control
+        dropdown menus to one where a significant amount of backend code is
+        being done with it, would fill a talk by itself.  In short, it is
+        about a bunch of companies --chiefly google, but also yahoo, Apple -
+        who came togather with the opensource community to supercharge open
+        web technologies. And the thing that really flipped the switch for JS
+        was Google's V8 engine.  A superfast "engine" for JS. They made it
+        when they launched their chrome browser.  They wanted to make
+        interactive web applications faster. But since that time, V8 has gone
+        everywhere. It been used in the chromimum browser, of course,
+        databases such as mongoDB and couchbase, and most importantly in
+        Nodejs, which is now, in many ways, the fastest growing backend
+        technology for web apps.  Anyhow, the point is we've gotten to a stage
+        where we can do credible amounts of processing, even HD video
+        processing, right inside a browser -- on the client side.
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="10000" data-y="-1500" >
+        <h1 class="font1 heading" >IoT Data Firehose</h1>
+        <div class="notes"><pre>
+
+        Anyhow, back to the topic at hand.  IoT technologies can help us extract data from the real world in contexts and quantities that we do not corrently expect.   I mean, think about it: when you say big data taday, you're mostly dealing with data that arises inside of computer sustems.  You know, click streams, transations.  I don't mean to say there are not other sources of data.  But with IoT you have this possibility where a great dea of the information you have around you, can be digitized and processed. 
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="11000" data-y="-1500" >
+        <h1 class="font1 heading" >Sensor Use and Abuse</h1>
+        <div class="notes"><pre>
+
+        Now, keep in my we used a CMOS sensor for this demo.  A CMOS imaging sensor is developed with a very specific applications in mind.  Photography and videography. Still images and video.  They are meant to mimic human visual perception.  They are meant to plug in as input to the awesome human vision system.  Everything about this webcam is designed with the ultimate human consumption of the image in mind.  The pixels are designed with specific sensitivities, and placed in a so called Bayer array.  The scan speed is tuned to play well ith human persistence of vision and so forth.  But human vision is nothing like computer vision. 
+
+        </pre></div>
+    </div>
+    <div class="step slide" data-x="12000" data-y="-1500" >
+        <h1 class="font1 heading" style="font-size:64px;" >Human vs Computer Vision</h1>
+        <img width="90%" src="img/illusion.webp">
+        <p>Source: <a href="https://www.rit.edu/cla/gssp400/muller/muller.html">https://www.rit.edu</a></p>
+        <div class="notes"><pre>
+
+        We do a lot of processing in our brain, a lot of extrapolation from context that gives us meaning from whatever raw data it is our retina is getting from the outside world. I'm sure you've all seen multiple illusions that help convince of it.  This one is my favorite.  No matter how hard you look at it you can't tell they are the same size right?  
+
+        So my point is given that computer vision is not the same as human
+        vision, would we be better off using a sensor tuned for making
+        computer vision tasks easier?  Instead of relying on a sensor designed
+        to show pretty pictures to human eyes?
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="13000" data-y="-1500" >
+        <h1 class="font1 heading">Vision Sensors</h1>
+        <div class="notes"><pre>
+
+        Yes! The answer is a definte yes!.  You have IR sensors, xray sensors,
+        scanning sensors, all manner of stuff.  But, these sensor are useless
+        for applicaitons outside of CV -- they are not good for taking a
+        selfie -- so no mass market -- which means they are  very,very
+        expensive. Which is why most current research focuses on doing CV
+        using regular CMOS sensors.
+
+        And you can find many instances of such innvotive uses of existing
+        sensors.  Such a regular mic being used t monitor[more examples FIXME]
+
+        </pre></div>
+    </div>
+
+    <div class="step slide" data-x="13000" data-y="-1500" >
+        <h1 class="font1 heading">Traffic Sensors</h1>
+        <div class="notes"><pre>
+
+        Let's talk about traffic sensors for a minute.  The main application of these things is to help guage the amount of traffic, and the speed of its movement thru secotions of the highway.  And this is how it looks.
 
         </pre></div>
     </div>
