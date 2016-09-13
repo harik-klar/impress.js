@@ -566,7 +566,7 @@ font-family: 'Hind Siliguri', sans-serif; -->
         </pre></div>
     </div>
 
-    <div class="step slide" data-x="8000" data-y="-1550" data-scale=".1">
+    <div class="step slide" data-x="8000" data-y="-1550" data-scale="0.1">
         <h1 class="font1 heading" style="font-size:90px">Under the Hood</h1>
         <style>
             .io_frame {
@@ -631,7 +631,7 @@ font-family: 'Hind Siliguri', sans-serif; -->
         </div>
         <div class="notes"><pre> 
 
-        Yeah it's actualy quite simple.  Six steps.  Each one fairly basic.
+        Yeah it's actually quite simple.  Six steps.  Each one fairly basic.
         Let's begin at the beginning.  The camera I have here is a Logitech
         [FIXME]. Megapixel webcam.  Not very expensive -- not cheap stuff
         either.  ABout 1500 rupees  or so.  Hunt for a deal this Diwali -- I
@@ -640,7 +640,7 @@ font-family: 'Hind Siliguri', sans-serif; -->
 
         </pre></div>
     </div>
-    <div class="step slide" data-x="7965" data-y="-1545" data-scale=".001">
+    <div class="step slide" data-x="7965" data-y="-1545" data-scale="0.001">
         <style>
             .image_rep th {
                 text-align: center;
@@ -727,16 +727,17 @@ font-family: 'Hind Siliguri', sans-serif; -->
         </pre></div>
     </div>
 
-    <div class="step slide" data-x="7965" data-y="-1545" data-scale=".00001">
+    <div class="step slide" data-x="7965" data-y="-1545" data-scale="0.00001">
         <h1 class="font1 heading">Pixel</h1>
         <div style="position:absolute;left:40%;top:40%;margin-bottom:30px;">
             <table id="pixel_rep" class="image_rep">
             <tr><td colspan="3">Pixel</td></tr>
             <tr><td>R=<span id="r_val"></span></td>
                     <td>G=<span id="g_val"></span></td>
-                    <td>B=<span id="b_val"></td></tr>
+                    <td>B=<span id="b_val"></span></td></tr>
             </table>
         </div>
+        <div>
         <p>921600 pixels/image &times; 24 bits/pixel &rarr; 2.6 MB</p>
         <p>2.6 MB @ 30 frames/second &rarr; ~600 mbps [uncompressed]</p>
         </div>
@@ -753,20 +754,77 @@ font-family: 'Hind Siliguri', sans-serif; -->
         </pre></div>
     </div>
 
-    <!-- <div class="step slide" data-x="7965" data-y="-1545" data-scale=".001" id="get_back">
-        <div>
-                <p>Testing</p>
+    <div class="step hide" data-x="7965" data-y="-1545" data-scale="0.001">
+        <div style="background:white;display:inline-block;">
+            <p>100 cycles/pixel @ 30 fps &rarr; ~2.7 GHz</p>
+            <p> @ 3 fps &rarr; 270 MHz</p>
+            <p style="float:right;">(one frame every 333 ms)</p>
         </div>
         <div class="notes"><pre> 
 
-        But in our case, we want to be processing this whole image in its uncompressed form. Just a few years ago this was an impossible torrent of data.  If were to spend say 100 cpu cycles per pixel -- and thats not hard to do -- that won't take more than 10 lines of code in a high level language -- you'll end up needing 2.7 GHz.  You either need a very power processor or some custom circuitry to make sense of it.  Well, fortunately for us, with video there's a very simple option.  Just drop the frame rate.  If you were OK with processing this stream at 3 frames per second, instead of 30 -- straightaway the CPU requirement drops 10 fold.  But what that means is that you get only one image for 300 ms.  In other words, youneed to hold you phone up for at least a third of a second to make sure we get you.  That's not hard -- most people will hold it up for a few seconds.
+        But in our case, we want to be processing this whole image in its
+        uncompressed form. Just a few years ago this was an impossible torrent
+        of data.  If were to spend say 100 cpu cycles per pixel -- and that's
+        not hard to do -- that won't take more than 10 lines of code in a high
+        level language -- you'll end up needing 2.7 GHz.  You either need a
+        very powerful processor or some custom circuitry.  Well, fortunately
+        for us, with video there's a very simple option.  Just drop the frame
+        rate.  If you were OK with processing this stream at 3 frames per
+        second, instead of 30 -- straightaway the CPU requirement drops 10
+        fold.  But what that means is that you get only one image for 300 ms.
+        In other words, you need to hold you phone up for at least a third of
+        a second to make sure we get it.  That's not hard -- most people will
+        hold it up for a few seconds.
 
-        Even a low-end platform -- ay the raspberry pi -- which has a single core ARM processor running at 800 MHz can handle this quite easily.  We are not usin ga RaspPi here - we'll come to our compute platform later. Just wanted to give you a sense of the problem size.
+        Even a low-end platform -- say the raspberry pi -- which has a single
+        core ARM processor running at 800 MHz can handle this quite easily.
+        We are not using a RaspPi here - we'll come to our compute platform
+        later. Just wanted to give you a sense of the problem size.
 
         </pre></div>
-    </div> -->
+    </div>
 
-    <div class="step slide" data-x="9000" data-y="-1500">
+    <div class="step hide" data-x="7971" data-y="-1548" data-scale="0.025" data-rotate="-90">
+        <div style="position:absolute;top:265%;display:inline-block; color:#493382;font-size:39px">
+         <p><b>Gray = 0.2989 &times; R + 0.5870 &times; G + 0.1140 &times; B</b></p>
+        </div>
+        <div class="notes"><pre> 
+
+        OK, so we have the image. What next.  Well, we re not really interested in a color image. We want to look for black phones. So first thing we do, we convert it to a gray scale image.  i.e., for 24 bits per pixel, it drops to 8 bits per pixel.  And the process involves a straightforward weighter sum of the RG abd B values.  The 8 bit alue we have goes from 0 to 255. 0 is perfect dark and 255 is perfect bright.
+
+        </pre></div>
+    </div>
+
+    <div class="step hide" data-x="7991" data-y="-1548" data-scale="0.025" data-rotate="-90">
+        <div style="position:absolute;top:340%;display:inline-block; color:#493382;font-size:39px">
+         <p><b>Output = 1, if above <tt>threshold</tt>; 0, otherwise</b></p>
+        </div>
+        <div class="notes"><pre> 
+
+        Second, we want to threshold this image.  In other words make it a
+        binary black and white image.  Remember, we are interested only in the
+        black portions.  Now, there's a problem here.  If we looked only for
+        perfectly black pixels, we won't find many.  [Explain why].  So we
+        need to have a threshold, some number, below which we decide a pixel
+        is black.
+
+        Let's try that [process of tuning].  So we have a problem.
+
+        </pre></div>
+    </div>
+
+    <div class="step hide" data-x="7991" data-y="-1548" data-scale="0.025" data-rotate="-90">
+        <div style="position:absolute;top:340%;display:inline-block; color:#493382;font-size:39px">
+         <p><b>Output = 1, if above <tt>threshold</tt>; 0, otherwise</b></p>
+        </div>
+        <div class="notes"><pre> 
+
+        So get past this we use a technique called hyterisis thresholding.  This refers to a process which is in theory stateless, but one in which the output lags behind in the input.  In the context of image processing, the way this works is, we have two threshold.  One high, one low.  So what we're saying is, everything below the low threshold is definitely back.  Everything above rhe high threshold is definitely not black.  For pixels with a value in between -- they are cnsidered black provided they have at least one black neighbour.  OK, so think about this.  You start with an image and mark all the pixels.  Yu get abunch of black, a bunh of not blacks, and then a bunch of question marks. Pixels that lie between the threshold.  You then grow the black regions by encompassing all the questionable pixels nearby in a progressive manner. This is a recursive process.  An a problem that arises frequently in what is generally called image segmentation.  When ever you have a picture that you want to break up into different regions or objects.  
+
+So with this we get two thresholds to tweak and a little bit of tweaking lets us get to a just right number.  Finally, we constrain the sizes.  At this discance, we expect the phone to fall within a particular size range.  That lets us eliminate a lot of false positives.  Fiannly, we igno regions that are permanently black. You know things that are part f the background.  
+
+
+        </pre></div>
     </div>
 
     <!--
